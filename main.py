@@ -8,7 +8,6 @@ import numpy as np
 # todo: report
 # todo: graphs
 # todo: max_iterations change
-# todo: something with quiver arrows
 # todo: create README.md
 
 
@@ -153,8 +152,12 @@ def print_output(tour, cost, iteration):
 
     plt.scatter(x, y, color='r')
     for i in range(len(x)):
-        city_num = tour[i] + 1
-        plt.annotate(city_num, (x[i], y[i]), ha='left', textcoords="offset points", xytext=(-5, 5))
+        label = ''
+        if i == 0:
+            label = 'START'
+        elif i == len(x) - 1:
+            label = 'END'
+        plt.annotate(label, (x[i], y[i]), ha='left', textcoords="offset points", xytext=(-5, -10))
 
     plt.xlabel('X-Coordinate')
     plt.ylabel('Y-Coordinate')
@@ -164,10 +167,6 @@ def print_output(tour, cost, iteration):
 
     print('')
     print('Tour Map saved as best_tour.png')
-
-    print('')
-    print(coordinates)
-    print(tour)
 
 
 if __name__ == '__main__':
