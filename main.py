@@ -157,7 +157,7 @@ def print_output(tour, cost, iteration):
             label = 'START'
         elif i == len(x) - 1:
             label = 'END'
-        plt.annotate(label, (x[i], y[i]), ha='left', textcoords="offset points", xytext=(-5, -10))
+        plt.annotate(label, (x[i], y[i]), ha='left', textcoords="offset points", xytext=(-15, -15))
 
     plt.xlabel('X-Coordinate')
     plt.ylabel('Y-Coordinate')
@@ -183,15 +183,22 @@ if __name__ == '__main__':
     default = int(input('Enter 1 to run ACO with default parameters and 0 to input custom parameters'))
     print('')
 
+
+
     if default:
         population = 15
         rho = 0.5
         alpha = 1
         beta = 5
-        q = 2
-        max_iterations = 2000
+        q = 2000
+        max_iterations = 1000
         online = True
         # max_iterations = 100
+    # population - pick 2 good ones for range
+    # rho - pick 3 good ones
+    # Q pick 3 values
+    # beta pick 3 values
+    # online turn off
     else:
         population = int(input('Enter population of ant colony:'))
         rho = float(input('Enter pheromone decay constant value:'))
