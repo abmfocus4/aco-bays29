@@ -12,6 +12,7 @@ import numpy as np
 # todo: create README.md
 
 
+
 def get_best_tour(ants, weights):
     best = calculate_cost(ants[0], weights)
     best_ant = 0
@@ -151,6 +152,12 @@ def print_output(tour, cost, iteration):
     plt.figure()
     plt.quiver(x[:-1], y[:-1], x[1:] - x[:-1], y[1:] - y[:-1], scale_units='xy', angles='xy', scale=1, color='b')
 
+    plt.scatter(x, y)
+    # plt.plot(x, y)
+    for i in range(len(x)):
+        city_num = tour[i] + 1
+        plt.annotate((city_num, x[i], y[i]), (x[i], y[i]))
+
     plt.xlabel('X-Coordinate')
     plt.ylabel('Y-Coordinate')
     plt.title('Best Tour')
@@ -159,34 +166,6 @@ def print_output(tour, cost, iteration):
 
     print('')
     print('Tour Map saved as best_tour.png')
-    #
-    #
-    # coordinates.reverse()
-    #
-    # x = np.array([x[0] for x in coordinates])
-    # y = np.array([y[1] for y in coordinates])
-    #
-    # plt.figure()
-    # plt.quiver(x[:-1], y[:-1], x[1:] - x[:-1], y[1:] - y[:-1], scale_units='xy', angles='xy', scale=1, color='b')
-    #
-    # plt.xlabel('X-Coordinate2')
-    # plt.ylabel('Y-Coordinate2')
-    # plt.title('Best Tour2')
-    #
-    # plt.savefig('best_tour2')
-
-    #
-    #
-    plt.figure()
-    plt.scatter(x, y)
-    plt.plot(x, y)
-    for i in range(len(x)):
-        city_num = tour[i] + 1
-        plt.annotate((city_num, x[i], y[i]), (x[i], y[i]))
-    plt.xlabel('X-Coordinate2')
-    plt.ylabel('Y-Coordinate2')
-    plt.title('Best Tour2')
-    plt.savefig('best_tour3')
 
     print('')
     print(coordinates)
