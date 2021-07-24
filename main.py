@@ -3,6 +3,7 @@ import random
 import math
 from matplotlib import pyplot as plt
 import numpy as np
+from statistics import mean
 
 
 # todo: report
@@ -140,33 +141,33 @@ def print_output(tour, cost, iteration):
     print('Best Route Found by ACO for Bays29:')
     print(tour)
     print('Cost of Best Route is ' + str(cost) + ' found at Iteration ' + str(iteration) + ' by an Ant')
-
-    # creating Map of tour
-    coordinates = [cities.bays29_coordinates[tour[i]] for i in range(len(tour))]
-
-    x = np.array([x[0] for x in coordinates])
-    y = np.array([y[1] for y in coordinates])
-
-    plt.figure()
-    plt.quiver(x[:-1], y[:-1], x[1:] - x[:-1], y[1:] - y[:-1], scale_units='xy', angles='xy', scale=1, color='b')
-
-    plt.scatter(x, y, color='r')
-    for i in range(len(x)):
-        label = ''
-        if i == 0:
-            label = 'START'
-        elif i == len(x) - 1:
-            label = 'END'
-        plt.annotate(label, (x[i], y[i]), ha='left', textcoords="offset points", xytext=(-15, -15))
-
-    plt.xlabel('X-Coordinate')
-    plt.ylabel('Y-Coordinate')
-    plt.title('Best Tour')
-
-    plt.savefig('best_tour')
-
-    print('')
-    print('Tour Map saved as best_tour.png')
+    #
+    # # creating Map of tour
+    # coordinates = [cities.bays29_coordinates[tour[i]] for i in range(len(tour))]
+    #
+    # x = np.array([x[0] for x in coordinates])
+    # y = np.array([y[1] for y in coordinates])
+    #
+    # plt.figure()
+    # plt.quiver(x[:-1], y[:-1], x[1:] - x[:-1], y[1:] - y[:-1], scale_units='xy', angles='xy', scale=1, color='b')
+    #
+    # plt.scatter(x, y, color='r')
+    # for i in range(len(x)):
+    #     label = ''
+    #     if i == 0:
+    #         label = 'START'
+    #     elif i == len(x) - 1:
+    #         label = 'END'
+    #     plt.annotate(label, (x[i], y[i]), ha='left', textcoords="offset points", xytext=(-15, -15))
+    #
+    # plt.xlabel('X-Coordinate')
+    # plt.ylabel('Y-Coordinate')
+    # plt.title('Best Tour')
+    #
+    # plt.savefig('best_tour')
+    #
+    # print('')
+    # print('Tour Map saved as best_tour.png')
 
 
 if __name__ == '__main__':
@@ -180,98 +181,135 @@ if __name__ == '__main__':
     print('Ant Colony Optimization - TSP Bays29')
     print('')
 
-    default = int(input('Enter 1 to run ACO with default parameters and 0 to input custom parameters'))
-    print('')
+    # y axis
+    pop = [i for i in range(1, 30, 2)]
+    # pop = [i for i in range(1, 4)]
 
+    # x axis
+    cost = []
 
+    # trails
+    num_trails = 10
 
-    if default:
-        population = 15
-        rho = 0.5
-        alpha = 1
-        beta = 5
-        q = 2000
-        max_iterations = 1000
-        online = True
-        # max_iterations = 100
-    # population - pick 2 good ones for range
-    # rho - pick 3 good ones
-    # Q pick 3 values
-    # beta pick 3 values
-    # online turn off
-    else:
-        population = int(input('Enter population of ant colony:'))
-        rho = float(input('Enter pheromone decay constant value:'))
-        alpha = float(input('Enter value of alpha: '))
-        beta = float(input('Enter value of beta: '))
-        q = float(input('Enter value of Q: '))
-        online = bool(input('Enter 1 for enabling and 0 for disabling online pheromone update'))
-        max_iterations = int(input('Enter the number of iterations ACO needs to run for: '))
-        print('')
+    # default = int(input('Enter 1 to run ACO with default parameters and 0 to input custom parameters'))
+    # print('')
+    for p in range(len(pop)):
+        pop_cost = []
+        for i in range(num_trails + 1):
+            population = pop[p]
+            rho = 0.5
+            alpha = 1
+            beta = 5
+            q = 2000
+            max_iterations = 500
+            online = True
+            # max_iterations = 100
 
-    print('Running ACO with the following parameters: ')
-    print('')
+            # if default:
+            #     population = 15
+            #     rho = 0.5
+            #     alpha = 1
+            #     beta = 5
+            #     q = 2000
+            #     max_iterations = 1000
+            #     online = True
+            #     # max_iterations = 100
+            # # population - pick 2 good ones for range
+            # # rho - pick 3 good ones
+            # # Q pick 3 values
+            # # beta pick 3 values
+            # # online turn off
+            # else:
+            #     population = int(input('Enter population of ant colony:'))
+            #     rho = float(input('Enter pheromone decay constant value:'))
+            #     alpha = float(input('Enter value of alpha: '))
+            #     beta = float(input('Enter value of beta: '))
+            #     q = float(input('Enter value of Q: '))
+            #     online = bool(input('Enter 1 for enabling and 0 for disabling online pheromone update'))
+            #     max_iterations = int(input('Enter the number of iterations ACO needs to run for: '))
+            #     print('')
 
-    print('population: ' + str(population))
-    print('pheromone decay constant: ' + str(rho))
-    print('online pheromone update: ' + str(online))
-    print('alpha: ' + str(alpha))
-    print('beta: ' + str(beta))
-    print('Q: ' + str(q))
-    print('max iterations: ' + str(max_iterations))
-    print('')
+            print('Running ACO with the following parameters: ')
+            print('')
 
-    print('Ant Colony Construction in Progress...')
-    print('')
+            print('population: ' + str(population))
+            print('pheromone decay constant: ' + str(rho))
+            print('online pheromone update: ' + str(online))
+            print('alpha: ' + str(alpha))
+            print('beta: ' + str(beta))
+            print('Q: ' + str(q))
+            print('max iterations: ' + str(max_iterations))
+            print('')
 
-    ants = [0 for _ in range(population)]
-    pheromones = [[0 for _ in range(num_cities)] for y in range(num_cities)]
+            print('Ant Colony Construction in Progress...')
+            print('')
 
-    # initialize ant k's tour with random cities
-    for k in range(population):
-        ants[k] = []
-        for i in range(num_cities):
-            # get random city not in tour
-            city = random.randint(0, last_city)
-            while city in ants[k]:
-                city = random.randint(0, last_city)
-            # add city to tour
-            ants[k].append(city)
+            ants = [0 for _ in range(population)]
+            pheromones = [[0 for _ in range(num_cities)] for y in range(num_cities)]
 
-    # set pheromone values to default
-    for i in range(num_cities):
-        for j in range(num_cities):
-            pheromones[i][j] = rho
+            # initialize ant k's tour with random cities
+            for k in range(population):
+                ants[k] = []
+                for i in range(num_cities):
+                    # get random city not in tour
+                    city = random.randint(0, last_city)
+                    while city in ants[k]:
+                        city = random.randint(0, last_city)
+                    # add city to tour
+                    ants[k].append(city)
 
-    best_tour = get_best_tour(ants, weights)
-    best_cost = calculate_cost(best_tour, weights)
+            # set pheromone values to default
+            for i in range(num_cities):
+                for j in range(num_cities):
+                    pheromones[i][j] = rho
 
-    print('Initial Tour Cost: ' + str(best_cost))
+            best_tour = get_best_tour(ants, weights)
+            best_cost = calculate_cost(best_tour, weights)
 
-    iterations = 0
-    best_iteration = 0
+            print('Initial Tour Cost: ' + str(best_cost))
 
-    while iterations < max_iterations:
-        if iterations % 100 == 0 and iterations:
-            print("Iterations Completed: " + str(iterations))
+            iterations = 0
+            best_iteration = 0
 
-        if online:
-            online_update(ants, pheromones, weights)
-        offline_update(ants, pheromones, weights)
+            while iterations < max_iterations:
+                if iterations % 100 == 0 and iterations:
+                    print("Iterations Completed: " + str(iterations))
 
-        for i in range(len(ants)):
-            ants[i] = get_tour(ants[i][0], pheromones, weights)
+                if online:
+                    online_update(ants, pheromones, weights)
+                offline_update(ants, pheromones, weights)
 
-        new_best_tour = get_best_tour(ants, weights)
-        new_best_cost = calculate_cost(new_best_tour, weights)
+                for i in range(len(ants)):
+                    ants[i] = get_tour(ants[i][0], pheromones, weights)
 
-        if new_best_cost < best_cost:
-            best_cost = new_best_cost
-            best_tour = new_best_tour
-            print('Cost of Best Route so far: ' + str(best_cost))
-            best_iteration = iterations
+                new_best_tour = get_best_tour(ants, weights)
+                new_best_cost = calculate_cost(new_best_tour, weights)
 
-        iterations += 1
+                if new_best_cost < best_cost:
+                    best_cost = new_best_cost
+                    best_tour = new_best_tour
+                    # print('Cost of Best Route so far: ' + str(best_cost))
+                    best_iteration = iterations
 
-    print('')
-    print_output(best_tour, best_cost, best_iteration)
+                iterations += 1
+
+            print('')
+            pop_cost.append(best_cost)
+            print_output(best_tour, best_cost, best_iteration)
+
+        cost.append(mean(pop_cost))
+
+    # x-axis
+    print(pop)
+    # y-axis
+    print(cost)
+
+    plt.figure()
+    plt.plot(pop, cost, color='b')
+    plt.scatter(pop, cost, color='r')
+
+    plt.xlabel('Number of Ants')
+    plt.ylabel('Tour Cost')
+    plt.title('Population VS Tour Cost')
+
+    plt.savefig('population_vs_cost')
