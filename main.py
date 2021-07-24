@@ -12,7 +12,6 @@ import numpy as np
 # todo: create README.md
 
 
-
 def get_best_tour(ants, weights):
     best = calculate_cost(ants[0], weights)
     best_ant = 0
@@ -152,11 +151,10 @@ def print_output(tour, cost, iteration):
     plt.figure()
     plt.quiver(x[:-1], y[:-1], x[1:] - x[:-1], y[1:] - y[:-1], scale_units='xy', angles='xy', scale=1, color='b')
 
-    plt.scatter(x, y)
-    # plt.plot(x, y)
+    plt.scatter(x, y, color='r')
     for i in range(len(x)):
         city_num = tour[i] + 1
-        plt.annotate((city_num, x[i], y[i]), (x[i], y[i]))
+        plt.annotate(city_num, (x[i], y[i]), ha='left', textcoords="offset points", xytext=(-5, 5))
 
     plt.xlabel('X-Coordinate')
     plt.ylabel('Y-Coordinate')
@@ -192,9 +190,9 @@ if __name__ == '__main__':
         alpha = 1
         beta = 5
         q = 2
-        max_iterations = 100
+        max_iterations = 2000
         online = True
-        # max_iterations = 500
+        # max_iterations = 100
     else:
         population = int(input('Enter population of ant colony:'))
         rho = float(input('Enter pheromone decay constant value:'))
