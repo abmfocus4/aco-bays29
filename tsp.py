@@ -1,3 +1,7 @@
+# Full Name: Meg Alapati
+# Student #: 20747086
+# Student ID: bmalapat
+
 import math
 
 
