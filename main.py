@@ -38,8 +38,9 @@ def online_update(ants, pheromones, weights):
                     # decrease pheromone decay constant
                     pheromones[i][j] *= (1 - rho)
                     # add new pheromone concentration if path is visited
-                    if visited_path(i, j, ants[k]):
-                        pheromones[i][j] += q / calculate_cost(ants[k], weights)
+                    if online:
+                        if visited_path(i, j, ants[k]):
+                            pheromones[i][j] += q / calculate_cost(ants[k], weights)
                     # pheromone is always equal or greater than decay constant
                     if pheromones[i][j] < rho:
                         pheromones[i][j] = rho
@@ -191,12 +192,31 @@ if __name__ == '__main__':
         online = True
     else:
         population = int(input('Enter population of ant colony:'))
+        if population > 1000 or population <= 0:
+            population = 1000
+
         rho = float(input('Enter pheromone decay constant value:'))
+        if rho <= 0 or rho >= 1:
+            rho = 0.5
+
         alpha = float(input('Enter value of alpha: '))
+        if alpha > 10 or alpha <= 0:
+            alpha = 1
+
         beta = float(input('Enter value of beta: '))
+        if beta > 10 or beta <= 0:
+            beta = 5
+
         q = float(input('Enter value of Q: '))
-        online = bool(input('Enter 1 for enabling and 0 for disabling online pheromone update'))
+        if q <= 0:
+            q = 1000
+
+        online = bool(int((input('Enter 1 for enabling and 0 for disabling online pheromone update: '))))
+
         max_iterations = int(input('Enter the number of iterations ACO needs to run for: '))
+        if max_iterations <= 0:
+            max_iterations = 100
+
         print('')
 
     print('Running ACO with the following parameters: ')
@@ -245,8 +265,7 @@ if __name__ == '__main__':
         if iterations % 100 == 0 and iterations:
             print("Iterations Completed: " + str(iterations))
 
-        if online:
-            online_update(ants, pheromones, weights)
+        online_update(ants, pheromones, weights)
         offline_update(ants, pheromones, weights)
 
         for i in range(len(ants)):
