@@ -30,10 +30,4 @@ At the end of the execution, the best tour found by ACO is printed to the consol
 
 ----
 
-_Author: Meg Alapati_
-
-_Student #: 20747086_
-
-_Student ID: bmalapat_
-
 
